@@ -45,14 +45,14 @@ class Matrix:
             if len(list_of_lists[i]) != len(list_of_lists[0]): #It must be a matrix afterall
                 print("undefined matrix")
         self.lol=list_of_lists
-    def show(self):#Method to display the matrix appropriately
+    def show(self):                          #Method to display the matrix appropriately
         for i in self.lol:
             for j in i:
                 print(str(j)+str(','),end='')
             print("\n")
-    def Transpose(self):#Method defining the Transpose of a matrix
+    def Transpose(self):                     #Method defining the Transpose of a matrix
         C=[]
-        for _ in range(len(self.lol[0])):#Inverting the number of rows and columns
+        for _ in range(len(self.lol[0])):    #Inverting the number of rows and columns
             C+=[[]]
         for i in range(len(self.lol)):
             for j in range(len(self.lol[i])):#appending the rows as columns
@@ -67,7 +67,7 @@ def Mat_product(X,Y,show=True):
             m=len(X.lol)
             n=len(Y.lol[0])
             Z=[]
-            for _ in range(m):#creating the new matrix
+            for _ in range(m):         #creating the new matrix
                 Z+=[[]]
             for i in range(len(X.lol)):#populating the entries of the new matrix
                 temp=0
@@ -130,9 +130,9 @@ def partialPivot(lst_of_lsts,pivnum):
             if lst_of_lsts[i][pivnum]>lst_of_lsts[swap_row_ind][pivnum]:
                 swap_row_ind=i
         if abs(lst_of_lsts[swap_row_ind][pivnum]/mx)<10**(-2): #if no swappable element found in any row
-            return("Unswappable zero pivot reached!")        #message indicating that partial pivot not possible
+            return("Unswappable zero pivot reached!")          #message indicating that partial pivot not possible
         lst_of_lsts[pivnum],lst_of_lsts[swap_row_ind]=lst_of_lsts[swap_row_ind],lst_of_lsts[pivnum]
-        return(swp_nos)            #return the number of swaps done
+        return(swp_nos)                                        #return the number of swaps done
 
 
 
@@ -142,14 +142,14 @@ Row reduced echelon matrix
 '''
 def GaussJordan(mtrx):
     lst_of_lsts=mtrx.lol
-    m=len(lst_of_lsts)   #number of rows
-    n=len(lst_of_lsts[0])#number of columns
-    for i in range(m):   #Looping through all rows
+    m=len(lst_of_lsts)              #number of rows
+    n=len(lst_of_lsts[0])           #number of columns
+    for i in range(m):              #Looping through all rows
         partialPivot(lst_of_lsts,i) #Partial pivoting if required
         if partialPivot(lst_of_lsts,i)=="Unswappable zero pivot reached!":
             return("Unswappable zero pivot reached!") #In case Gauss Jordan is not possible
         multRow(lst_of_lsts,i,1/lst_of_lsts[i][i])    
-        for j in range(m):  #eliminating all elements in the column except the pivot
+        for j in range(m):                            #eliminating all elements in the column except the pivot
             if j!=i:
                 rowAdd(lst_of_lsts,j,i,-lst_of_lsts[j][i])
 
@@ -160,8 +160,8 @@ Note: It does not return the augmented matrix but only the inverse
 
 def inverse(mtrx):
     lst_of_lsts=mtrx.lol
-    m=len(lst_of_lsts)   #number of rows
-    n=len(lst_of_lsts[0])#number of columns
+    m=len(lst_of_lsts)                               #number of rows
+    n=len(lst_of_lsts[0])                            #number of columns
     det_check=GaussJordan(mtrx)
     if det_check=="Unswappable zero pivot reached!": #if partial pivot not possible, inverse does not exist
         return('Inverse does not exist')
@@ -180,8 +180,8 @@ A function that calculates the determinant of a square matrix
 
 def Determinant(mtrx):
     lst_of_lsts=mtrx.lol
-    m=len(lst_of_lsts)   #number of rows
-    n=len(lst_of_lsts[0])#number of columns
+    m=len(lst_of_lsts)                           #number of rows
+    n=len(lst_of_lsts[0])                        #number of columns
     if m!=n:
         return("Determinant does not exist")
     swp_nos=0                                    #A counter that keeps track of total number of swaps
@@ -190,7 +190,7 @@ def Determinant(mtrx):
         if pP=="Unswappable zero pivot reached!":#In case partial pivoting is not possible, determinant is 0
             return(0)
         swp_nos+=pP                              #counting the total number of partial pivots done
-        for j in range(i+1,m):             #eliminating all the elements in the pivoting column below the pivot
+        for j in range(i+1,m):                   #eliminating all the elements in the pivoting column below the pivot
             rowAdd(lst_of_lsts,j,i,-lst_of_lsts[j][i]/lst_of_lsts[i][i])
     val=1
     for pivnum in range(m):
